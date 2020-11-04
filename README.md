@@ -9,9 +9,9 @@ Every wheel might covered by unit test.
 # Wheels list
 
 - concurrent util
--- atomic
--- locks
--- container
+   - atomic
+   - locks
+   - container
 - util
--- comparator
--- container
+   - comparator
+   - container
