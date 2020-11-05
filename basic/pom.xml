@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.zhonghcc.build-your-own</groupId>
-    <artifactId>base</artifactId>
+    <artifactId>basic</artifactId>
 
 
 </project>
