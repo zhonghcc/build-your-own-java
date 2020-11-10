@@ -15,4 +15,7 @@ public class AtomicInteger{
         i+=delta;
         return ret;
     }
+    public int get(){
+        return i;
+    }
 }
