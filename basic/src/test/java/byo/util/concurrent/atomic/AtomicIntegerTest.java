@@ -10,13 +10,14 @@ import static org.junit.Assert.*;
 public class AtomicIntegerTest {
 
     @Test
-    public void getAndIncrease() {
+    public void getAndIncrease() throws InterruptedException {
         final AtomicInteger i = new AtomicInteger(0);
         for(int j=0;j<100;j++){
             new Thread(()->{
                 log.info("current={}",i.getAndIncrease(1));
             }).start();
         }
+        Thread.sleep(100);
         Assert.assertEquals(100,i.get());
     }
 }

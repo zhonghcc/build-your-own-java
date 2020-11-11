@@ -1,21 +1,35 @@
 package byo.util.concurrent.atomic;
 
+import byo.util.UnsafeUtil;
 import lombok.extern.slf4j.Slf4j;
+import sun.misc.Unsafe;
 
 @Slf4j
 public class AtomicInteger{
-    int i;
+    private static final Unsafe unsafe = UnsafeUtil.getUnsafe();
+    private static long offset;
+    private volatile int value;
+
+    static {
+        try{
+            offset = unsafe.objectFieldOffset(AtomicInteger.class.getDeclaredField("value"));
+
+        }catch (Exception e){
+            log.error("load offset error",e);
+            throw new Error(e);
+        }
+    }
     public AtomicInteger(int init){
-        this.i = init;
+        this.value = init;
     }
 
     public int getAndIncrease(int delta){
-        log.info("getAndIncrease {}",delta);
-        int ret = i;
-        i+=delta;
-        return ret;
+        return unsafe.getAndAddInt(this,offset,delta);
+    }
+    public boolean compareAndSet(int expect,int update){
+        return unsafe.compareAndSwapInt(this,offset,expect,update);
     }
     public int get(){
-        return i;
+        return value;
     }
 }
