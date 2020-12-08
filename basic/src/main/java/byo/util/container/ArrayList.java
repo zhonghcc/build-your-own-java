@@ -1,15 +1,20 @@
 package byo.util.container;
 
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.Arrays;
 import java.util.Iterator;
 
+@Slf4j
 public class ArrayList<E> implements Collection{
     private static final int DEFAULT_CAPACITY = 8;
+    private static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
     Object[] buffer;
     int size;
 
     public ArrayList(int capacity){
         buffer = new Object[capacity];
-        size = capacity;
+        size = 0;
     }
     public ArrayList(){
         this(ArrayList.DEFAULT_CAPACITY);
@@ -47,7 +52,9 @@ public class ArrayList<E> implements Collection{
 
     @Override
     public boolean add(Object o) {
-        return false;
+        ensureCapacity(size+1);
+        buffer[size++]=o;
+        return true;
     }
 
     @Override
@@ -63,5 +70,29 @@ public class ArrayList<E> implements Collection{
     @Override
     public Iterator iterator() {
         return null;
+    }
+
+    private void ensureCapacity(int capacity){
+        if (capacity>buffer.length){
+            grow(capacity);
+        }
+    }
+    private void grow(int capacity){
+        int oldCapacity = buffer.length;
+        //增长一半
+        int newCapacity = oldCapacity + (oldCapacity>>1);
+        if (newCapacity < capacity){
+            newCapacity = capacity;
+        }
+        if(newCapacity> MAX_ARRAY_SIZE){
+            if(capacity<MAX_ARRAY_SIZE){
+                newCapacity = MAX_ARRAY_SIZE;
+            }else{
+                throw new OutOfMemoryError();
+            }
+        }
+        log.debug("grow size={},oldCapacity={},newCapacity={}",capacity,oldCapacity,newCapacity);
+        Object[] temp = Arrays.copyOf(buffer,newCapacity);
+        buffer = temp;
     }
 }
