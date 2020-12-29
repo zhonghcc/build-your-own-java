@@ -3,8 +3,8 @@ package byo.util.container;
 public interface Collection<E> extends Iterable<E> {
     int size();
     boolean isEmpty();
-    boolean contains(Object o);
+    boolean contains(E o);
     boolean add(E e);
-    boolean remove(Object o);
+    boolean remove(E o);
     void clear();
 }

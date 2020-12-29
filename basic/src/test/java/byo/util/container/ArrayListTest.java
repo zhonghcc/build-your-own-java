@@ -1,10 +1,12 @@
 package byo.util.container;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+@Slf4j
 public class ArrayListTest {
 
     @Test
@@ -43,6 +45,14 @@ public class ArrayListTest {
 
     @Test
     public void remove() {
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        for(int i=0;i<7;i++){
+            arrayList.add(i);
+        }
+        arrayList.remove(3);
+//        log.info("{}",arrayList);
+        Assert.assertEquals(4,arrayList.get(3).intValue());
+        Assert.assertEquals(6,arrayList.size());
     }
 
     @Test

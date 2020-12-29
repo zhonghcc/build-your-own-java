@@ -6,11 +6,11 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 @Slf4j
-public class ArrayList<E> implements Collection{
+public class ArrayList<E> implements Collection<E>{
     private static final int DEFAULT_CAPACITY = 8;
     private static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
-    Object[] buffer;
-    int size;
+    private Object[] buffer;
+    private int size;
 
     public ArrayList(int capacity){
         buffer = new Object[capacity];
@@ -46,30 +46,46 @@ public class ArrayList<E> implements Collection{
     }
 
     @Override
-    public boolean contains(Object o) {
+    public boolean contains(E o) {
         return indexOf(o)>=0;
     }
 
     @Override
-    public boolean add(Object o) {
+    public boolean add(E o) {
         ensureCapacity(size+1);
         buffer[size++]=o;
         return true;
     }
 
     @Override
-    public boolean remove(Object o) {
-        return false;
+    public boolean remove(E o) {
+        int index = indexOf(o);
+        if(index<0){
+            return false;
+        }
+        System.arraycopy(buffer,index+1,buffer,index,size-index);
+        buffer[size--]=null;//Let GC
+        return true;
     }
 
     @Override
     public void clear() {
-
+        for(int i=0;i<size;i++){
+            buffer[i]=null;//Let GC
+        }
+        size = 0;
     }
 
     @Override
     public Iterator iterator() {
         return null;
+    }
+
+    public E get(int index){
+        if(index>=size||index<0){
+            return null;
+        }
+        return (E)buffer[index];
     }
 
     private void ensureCapacity(int capacity){
