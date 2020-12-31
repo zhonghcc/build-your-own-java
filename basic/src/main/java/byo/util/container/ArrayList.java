@@ -60,6 +60,9 @@ public class ArrayList<E> implements Collection<E>{
     @Override
     public boolean remove(E o) {
         int index = indexOf(o);
+        return remove(index);
+    }
+    public boolean remove(int index){
         if(index<0){
             return false;
         }
@@ -77,8 +80,8 @@ public class ArrayList<E> implements Collection<E>{
     }
 
     @Override
-    public Iterator iterator() {
-        return null;
+    public Iterator<E> iterator() {
+        return new ArrayListIterator<E>();
     }
 
     public E get(int index){
@@ -110,5 +113,28 @@ public class ArrayList<E> implements Collection<E>{
         log.debug("grow size={},oldCapacity={},newCapacity={}",capacity,oldCapacity,newCapacity);
         Object[] temp = Arrays.copyOf(buffer,newCapacity);
         buffer = temp;
+    }
+
+    private class ArrayListIterator<E> implements Iterator<E>{
+        int cur;
+
+        @Override
+        public boolean hasNext() {
+            if(cur<ArrayList.this.size()){
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public E next() {
+            return (E)ArrayList.this.buffer[cur++];
+        }
+
+        @Override
+        public void remove() {
+            ArrayList.this.remove(cur-1);
+            cur--;
+        }
     }
 }

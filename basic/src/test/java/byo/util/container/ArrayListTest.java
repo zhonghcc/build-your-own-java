@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Iterator;
+
 import static org.junit.Assert.*;
 
 @Slf4j
@@ -27,21 +29,6 @@ public class ArrayListTest {
 
     }
 
-    @Test
-    public void isEmpty() {
-    }
-
-    @Test
-    public void indexOf() {
-    }
-
-    @Test
-    public void contains() {
-    }
-
-    @Test
-    public void add() {
-    }
 
     @Test
     public void remove() {
@@ -55,11 +42,26 @@ public class ArrayListTest {
         Assert.assertEquals(6,arrayList.size());
     }
 
-    @Test
-    public void clear() {
-    }
 
     @Test
     public void iterator() {
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        for(int i=0;i<7;i++){
+            arrayList.add(i);
+        }
+        Iterator<Integer> iterator = arrayList.iterator();
+        while(iterator.hasNext()){
+            log.info("{}",iterator.next());
+        }
+        Iterator<Integer> ite2 = arrayList.iterator();
+        while(ite2.hasNext()){
+            Integer value = ite2.next();
+            if(value==3){
+                ite2.remove();
+            }else{
+                log.info("{}",value);
+            }
+        }
+        Assert.assertEquals(6,arrayList.size());
     }
 }
