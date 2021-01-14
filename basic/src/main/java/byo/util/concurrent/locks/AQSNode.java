@@ -22,4 +22,7 @@ public class AQSNode {
     AQSNode(Thread thread){
         this.thread = thread;
     }
+
+    AQSNode() {    // Used to establish initial head or SHARED marker
+    }
 }
